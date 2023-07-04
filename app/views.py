@@ -645,5 +645,24 @@ def createProtection(request):
     }
     return HttpResponse(template.render(context, request))
 
+#Retrieve customer alerts
+def retrieveAlerts(request):
+    if (request.method == "POST"):
+        customer_tenant_id = request.POST['customerID']
+    
+    auth2 = scopedAccessToken(customer_tenant_id)
 
+    #set base url for retrieving alerts
+    alerts_url = f'{datacenter_url}/api'
 
+    #send get request to endpoint
+    response = requests.get(f'{alerts_url}/alert_manager/v1/alerts', headers=auth2)
+
+    #check status of response
+    print("Alerts status: ",response.status_code)
+
+    template = loader.get_template('reportsAlerts.html')
+    context = {
+    
+    }
+    return HttpResponse(template.render(context, request))

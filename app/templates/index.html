@@ -186,12 +186,12 @@
                     </form>
                 </div>
                 <div class="col-lg-4">
-                    <form action="">
-
+                    <form action="{% url "retrieveAlerts" %}" method="POST">
+                        {% csrf_token %}
                         <p class="h5">Get All Alerts</p>
 
-                        <label for="caname">Name</label><br>
-                        <input type="text" placeholder="Company Name" id="caname" required><br>
+                        <label for="caname">Customer ID</label><br>
+                        <input type="text" placeholder="Company Name" id="caname" name="customerID" required><br>
 
                         <input type="submit" value="Submit"><br><br>
                     </form>

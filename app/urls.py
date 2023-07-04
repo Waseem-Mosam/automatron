@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views import home, register, retrieveInfo, registerUser, retrieveUserInfo, createProtection
+from .views import home, register, retrieveInfo, registerUser, retrieveUserInfo, createProtection, retrieveAlerts
 
 urlpatterns = [
     path('', home, name="home"),
@@ -9,4 +9,5 @@ urlpatterns = [
     path('registerUser/', registerUser, name="registerUser"),
     path('retrieveUserInfo/', retrieveUserInfo, name="retrieveUserInfo"),
     path('createProtection/', createProtection, name="createProtection"),
+    path('retrieveAlerts/', retrieveAlerts, name="retrieveAlerts"),
 ]
