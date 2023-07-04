@@ -153,6 +153,7 @@ def registerUser(request):
         firstName = request.POST['firstName']
         lastName = request.POST['lastName']
         email = request.POST['email']
+        role = request.POST['role']
 
 
     login = username  # username as login
@@ -198,7 +199,37 @@ def registerUser(request):
 
     personal_tenant_id = response.json()['personal_tenant_id']
     #print(personal_tenant_id)
+    #activate a user account through email
     response = requests.post(f'{base_url}/users/{user_id}/send-activation-email', headers={'Content-Type': 'application/json', **auth})
+
+    # Assigning a role to a user
+    #assign the items array of the access policy objects with a new role to this variable
+    policies_object = {
+        "items": [
+            {
+                "id": "00000000-0000-0000-0000-000000000000",
+                "issuer_id": "00000000-0000-0000-0000-000000000000",
+                "trustee_id": user_id,
+                "trustee_type": "user",
+                "tenant_id": customerID,
+                "role_id": role,
+                "version": 0
+            }
+        ]
+    }
+
+    #Convert the policies_object object to a JSON text
+    policies_object = json.dumps(policies_object, indent=4)
+
+    #Send a PUT request with the JSON text to the /users/{user_id}/access_policies endpoint
+    response = requests.put(
+        f'{base_url}/users/{user_id}/access_policies',
+        headers={'Content-Type': 'application/json', **auth},
+        data=policies_object,
+    )
+
+    #check the status code 
+    print("User role status: ",response.status_code)
 
     # if (status == 200):
     #     messages.info(request, 'User created successfully.')
