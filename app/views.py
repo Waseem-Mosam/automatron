@@ -657,7 +657,7 @@ def retrieveAlerts(request):
 
     #send get request to endpoint
     response = requests.get(f'{alerts_url}/alert_manager/v1/alerts', headers=auth2)
-
+    pprint.pprint(response.json())
     #check status of response
     print("Alerts status: ",response.status_code)
 
