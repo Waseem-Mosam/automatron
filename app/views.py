@@ -1166,12 +1166,34 @@ def retrieveAlerts(request):
 
     #send get request to endpoint
     response = requests.get(f'{alerts_url}/alert_manager/v1/alerts', headers=auth2)
-    pprint.pprint(response.json())
+    #pprint.pprint(response.json())
+
+    
+    alertsLen = len(response.json()['items'])
+    #if no alerts are generated
+    if(alertsLen == 0):
+        print("No alerts generated\n")
+        alertsDisplay = []
+        template = loader.get_template('index.html')
+        alertsDisplay.append("No alerts generated.")
+        context = {
+            'alertsDisplay': alertsDisplay,
+        }
+        return HttpResponse(template.render(context, request))
+
+    #if alerts are generated
+    else:
+        alertList = []
+        for item in response.json()['items']:
+            dateTime = item['receivedAt']
+            row = (item['type'], item['details']['resourceName'], dateTime[:16])
+            alertList.append(row)
+
     #check status of response
-    print("Alerts status: ",response.status_code)
+    #print("Alerts status: ",response.status_code)
 
     template = loader.get_template('reportsAlerts.html')
     context = {
-    
+        'alertList': alertList,
     }
     return HttpResponse(template.render(context, request))

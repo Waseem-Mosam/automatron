@@ -32,27 +32,17 @@
         <div class="container">
             <table class=" table table-bordered text-center">
                 <tr>
-                    <th>Heading</th>
-                    <th>Information</th>
+                    <th>Time</th>
+                    <th>Type</th>
+                    <th>Resource</th>
                 </tr>
+                {% for type, resource, time in alertList %}
                 <tr>
-                    <td>Alerts</td>
-                    
+                    <td>{{ time }}</td>
+                    <td>{{ type }}</td>
+                    <td>{{ resource }}</td>
                 </tr>
-                <tr>
-                    <td>First Name</td>
-                    
-                </tr>
-                <tr>
-                    <td>Last Name</td>
-                    
-                </tr>
-                <tr>
-                    <td>Email</td>
-                    
-                </tr>
-                
-                 
+                {% endfor%}
             </table>
         </div>
     </div>
